@@ -16,7 +16,11 @@ partner pedigree and a clear path to action (a 20-minute intro call).
 
 ### Goals
 - One-page Next.js site (single scroll, anchor navigation).
-- Sections (in order): Hero → SaaS Killer → Who We Are → How We Work → Contact.
+- Homepage sections (in order): Hero → SaaS Killer → Whitepapers → Who We Are →
+  How We Work → Contact.
+- Whitepapers hosted on-site: a `/whitepapers` index and a page per article, built from
+  the three existing articles. Homepage stays a single scroll; these are the only
+  non-home routes.
 - Blue-and-gold visual identity ("Midnight & Gold" palette).
 - Clean rebuild: remove all e-commerce machinery.
 - Contact form delivers to `roger@wgpartners.com` via existing Nodemailer/SMTP.
@@ -27,7 +31,6 @@ partner pedigree and a clear path to action (a 20-minute intro call).
 - External scheduling tools (Calendly etc.) — the "Book a 20-min call" CTA jumps to
   the on-page contact form for now.
 - No new paid third-party services (no Resend/Formspree/Stripe/Supabase). SMTP only.
-- Blog / thought-leadership articles — future work, not in this build.
 
 ## 2. Visual Design
 
@@ -54,7 +57,7 @@ accent, not a fill — reserved for CTAs and the headline numbers.
 
 ### 3.1 Sticky Top Nav
 - Wordmark: **WG PARTNERS**
-- Anchor links: Who We Are · SaaS Killer · How We Work · Contact
+- Anchor links: SaaS Killer · Whitepapers · Who We Are · How We Work · Contact
 - Gold button: **Book a 20-min call** (→ `#contact`)
 
 ### 3.2 Hero
@@ -112,7 +115,21 @@ built a full production-ready e-commerce platform from scratch — payments, inv
 shipping APIs, and an admin dashboard. ~6 weeks of boilerplate engineering in under 6
 hours of AI orchestration.
 
-### 3.4 Who We Are (`#who-we-are`)
+### 3.4 Whitepapers (`#whitepapers`)
+Homepage band — heading **Whitepapers**, dek *"The thinking behind the thesis."* — with
+three cards (title + one-line dek + `Read →`) linking to on-site article pages, plus a
+`View all whitepapers` link to `/whitepapers`.
+
+Articles are **hosted on-site**, sourced (verbatim, lightly edited for the web) from the
+existing documents in the consulting folder:
+
+| Title | Route | Source doc |
+|-------|-------|------------|
+| The SaaS Hostage Trap: Why Most Software Companies Are Already Obsolete | `/whitepapers/saas-hostage-trap` | *Software Companies are Dead* |
+| The Code Is Disposable: Why the Specification Is Your Only Real Asset | `/whitepapers/code-is-disposable` | *The Specification is the Asset* |
+| The "42" Problem: Why Your Downsized Dev Team Is Stalling on "Vibe Coding" | `/whitepapers/the-42-problem` | *42 problem article* |
+
+### 3.5 Who We Are (`#who-we-are`)
 **Firm overview:**
 > WG Partners is a boutique AI-modernization firm. Senior technologists only — no
 > associate layer, no offshore handoff. The partners who pitch you are the partners who
@@ -128,7 +145,7 @@ hours of AI orchestration.
 **Verticals we know:** Financial Services / Fintech · Manufacturing & Supply Chain ·
 Enterprise SaaS / Tech · Government / Public Sector.
 
-### 3.5 How We Work (`#how-we-work`)
+### 3.6 How We Work (`#how-we-work`)
 **Principles:** Senior people deliver. Fixed-price outcomes, not hours. You own the IP.
 No recurring fees — ever. *"We hand you the keys. When you're ready to add a room, we're
 your team."*
@@ -143,7 +160,7 @@ Specify → Deliver.** 30 days. Working code. You own it forever.
 > Tell us what you're running. We'll tell you if we can help. 20 minutes. No pitch. Just
 > questions. → **Book a 20-min call**
 
-### 3.6 Contact Us (`#contact`)
+### 3.7 Contact Us (`#contact`)
 - **Form fields:** Name, Company, Email, Phone, Message (placeholder: "What are you
   running, and what's it costing you?"). The old Zip Code field and service-area
   validation are removed.
@@ -151,7 +168,7 @@ Specify → Deliver.** 30 days. Working code. You own it forever.
 - **Also shown:** email `roger@wgpartners.com`, phone `910-297-0929`.
 - **Book a 20-min call** button anchors here (it is the contact form).
 
-### 3.7 Footer
+### 3.8 Footer
 WG Partners · AI Modernization & Legacy Systems Consulting · `roger@wgpartners.com` ·
 `910-297-0929`.
 
@@ -163,8 +180,10 @@ WG Partners · AI Modernization & Legacy Systems Consulting · `roger@wgpartners
 
 ### Component structure (new, under `src/components/`)
 `TopNav`, `Hero`, `ResultBand`, `SaaSKiller` (with `HostageTrapCard`, `SpecVsMonolith`,
-`ProofCaseStudy`), `WhoWeAre` (`PartnerCard`, `Verticals`), `HowWeWork`,
-`ContactSection` (`ContactForm`), `Footer`. `page.tsx` assembles them in order.
+`ProofCaseStudy`), `WhitepapersTeaser` (homepage band of article cards), `WhoWeAre`
+(`PartnerCard`, `Verticals`), `HowWeWork`, `ContactSection` (`ContactForm`), `Footer`.
+`page.tsx` assembles them in order. A shared `WhitepaperLayout` renders individual
+article pages.
 
 ### Theme changes
 - `tailwind.config.ts`: replace the parchment/walnut palette with the Midnight & Gold
@@ -181,6 +200,18 @@ WG Partners · AI Modernization & Legacy Systems Consulting · `roger@wgpartners
   `CONTACT_TO=roger@wgpartners.com`.
 - On success: success toast + reset form. On failure: error toast directing the user to
   call `910-297-0929`.
+
+### Whitepapers (on-site hosting)
+- **Routes:** `/whitepapers` (index listing all articles) and `/whitepapers/[slug]`
+  (individual article). These are the only non-home routes.
+- **Content source:** article bodies stored under `src/content/whitepapers/` (one file
+  per article), sourced verbatim — lightly edited for the web — from the three consulting
+  documents. Index metadata (slug, title, dek, order) in `src/lib/whitepapers.ts`.
+  Rendering is dependency-free structured content, or a lightweight free markdown lib
+  (e.g. `react-markdown`) — the implementation plan decides; no paid services either way.
+- **Layout:** shared `WhitepaperLayout` — Playfair headings, readable measure, a
+  back-to-home link, and a contact CTA reusing the homepage styling.
+- **SEO:** each article page sets its own `metadata` and JSON-LD `Article`.
 
 ### Removals (clean rebuild)
 - **App routes:** `shop`, `cart`, `checkout`, `custom-order`, `products`, `gallery`,
@@ -204,6 +235,8 @@ WG Partners · AI Modernization & Legacy Systems Consulting · `roger@wgpartners
 
 ## 6. Testing / Verification
 - `next build` and `next lint` pass with no errors.
+- Whitepapers: `/whitepapers` index and each `/whitepapers/[slug]` page render; homepage
+  Whitepapers cards link correctly; per-article metadata present.
 - Manual: page renders; nav anchors smooth-scroll to each section; responsive on mobile
   (stat band stacks, nav collapses); form validation fires; form submit success and
   failure paths behave (test with throwaway SMTP creds or a mocked transport).
