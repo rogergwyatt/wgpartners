@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { whitepaperSlugs } from "@/lib/whitepapers";
 
-const BASE = "https://www.wgpartners.com";
+const BASE = "https://www.wgaipartners.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

@@ -53,8 +53,8 @@ export default function ContactSection() {
       </h2>
       <p className="mt-3 text-slate-600">
         20 minutes. No pitch. Just questions. Or reach us directly at{" "}
-        <a href="mailto:roger@wgpartners.com" className="text-royal underline">
-          roger@wgpartners.com
+        <a href="mailto:roger@wgaipartners.com" className="text-royal underline">
+          roger@wgaipartners.com
         </a>{" "}
         ·{" "}
         <a href="tel:+19102970929" className="text-royal underline">

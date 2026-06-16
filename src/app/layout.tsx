@@ -4,7 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "sonner";
 import { sans, serif } from "@/lib/fonts";
 
-const SITE_URL = "https://www.wgpartners.com";
+const SITE_URL = "https://www.wgaipartners.com";
 const SITE_DESCRIPTION =
   "WG Partners (Wyatt & Grundvig) uses AI to replace your legacy systems and off-the-shelf SaaS with custom software you own outright. One fixed engagement. No recurring fees.";
 
@@ -36,7 +36,7 @@ const orgJsonLd = {
   alternateName: "WG Partners",
   description: SITE_DESCRIPTION,
   url: SITE_URL,
-  email: "roger@wgpartners.com",
+  email: "roger@wgaipartners.com",
   telephone: "+1-910-297-0929",
   areaServed: "US",
 };

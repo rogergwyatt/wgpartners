@@ -32,7 +32,7 @@ export async function submitContactForm(
       to:
         process.env.SITE_MAIL_RECEIVER ||
         process.env.SITE_MAIL_RECIEVER ||
-        "roger@wgpartners.com",
+        "roger@wgaipartners.com",
       subject: `WG Partners inquiry — ${fields.name}${fields.company ? ` (${fields.company})` : ""}`,
       text: formatContactMessage(fields),
     });
