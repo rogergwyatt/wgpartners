@@ -1,0 +1,8 @@
+<!-- PLACEHOLDER favicon for WG Partners. A designed brand favicon should
+     replace this. Navy #0F2E52 / gold #C9A24B match the site palette. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="#0F2E52"/>
+  <text x="32" y="33" fill="#C9A24B" font-family="Georgia, 'Times New Roman', serif"
+        font-size="30" font-weight="700" text-anchor="middle" dominant-baseline="central"
+        letter-spacing="-1">WG</text>
+</svg>
