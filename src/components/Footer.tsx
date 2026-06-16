@@ -9,15 +9,15 @@ export default function Footer() {
         </span>
         <span>AI Modernization &amp; Legacy Systems Consulting</span>
         <span>
-          <a href="mailto:roger@wgpartners.com" className="hover:text-mist">
+          <a href="mailto:roger@wgpartners.com" className="hover:text-mist focus-visible:outline-none focus-visible:text-mist focus-visible:underline">
             roger@wgpartners.com
           </a>{" "}
           ·{" "}
-          <a href="tel:+19102970929" className="hover:text-mist">
+          <a href="tel:+19102970929" className="hover:text-mist focus-visible:outline-none focus-visible:text-mist focus-visible:underline">
             910-297-0929
           </a>
         </span>
-        <Link href="/whitepapers" className="hover:text-mist">
+        <Link href="/whitepapers" className="hover:text-mist focus-visible:outline-none focus-visible:text-mist focus-visible:underline">
           Whitepapers
         </Link>
       </div>
