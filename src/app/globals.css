@@ -1,0 +1,65 @@
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 240, 240, 240;
+  --background-end-rgb: 255, 255, 255;
+
+  /* Backgrounds */
+  --bg-parchment: #f9f7f2;
+  --bg-white: #ffffff;
+  --bg-walnut: #2d241e; /* Best for Headings */
+  --bg-cherry-rust: #a64b29;  /* Best for Buttons & Links */
+  --bg-maple-tan: #e6ded1;
+  
+  /* Wood-Inspired Tones */
+  --walnut-black: #2d241e; /* Best for Headings */
+  --cherry-rust: #a64b29;  /* Best for Buttons & Links */
+  --maple-tan: #e6ded1;    /* Best for dividers and subtle backgrounds */
+  
+  /* Brand Accents */
+  --forest-green: #3e4d39; /* Best for secondary buttons or icons */
+  --software-gray: #5a5a5a; /* Best for body text and footer text */
+}
+
+
+h1, h2, h3 {
+  color: var(--walnut-black);
+}
+
+.button-primary {
+  background-color: var(--cherry-rust);
+  color: white;
+  border-radius: 4px; /* Slight roundness suggests the "soft square" of your coasters */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 60, 60, 60;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  background-color: var(--bg-parchment);
+  color: var(--software-gray);
+  font-family: 'Inter', 'Georgia', serif; /* A mix of tech and tradition */
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.social:hover{
+  fill:grey;
+}
+
+
+
