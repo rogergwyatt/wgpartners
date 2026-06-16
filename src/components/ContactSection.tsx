@@ -28,14 +28,18 @@ export default function ContactSection() {
     if (Object.keys(found).length > 0) return;
 
     setSubmitting(true);
-    const result = await submitContactForm(fields);
-    setSubmitting(false);
-
-    if (result.ok) {
-      toast.success("Thanks — we'll be in touch shortly.");
-      setFields(empty);
-    } else {
+    try {
+      const result = await submitContactForm(fields);
+      if (result.ok) {
+        toast.success("Thanks — we'll be in touch shortly.");
+        setFields(empty);
+      } else {
+        toast.error("Couldn't send. Please call us at 910-297-0929.");
+      }
+    } catch {
       toast.error("Couldn't send. Please call us at 910-297-0929.");
+    } finally {
+      setSubmitting(false);
     }
   }
 

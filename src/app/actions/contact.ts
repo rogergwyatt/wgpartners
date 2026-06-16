@@ -26,11 +26,13 @@ export async function submitContactForm(
   }
 
   try {
-    await transporter.verify();
     await transporter.sendMail({
       from: process.env.SMTP_SERVER_USERNAME,
       replyTo: fields.email,
-      to: process.env.SITE_MAIL_RECIEVER || "roger@wgpartners.com",
+      to:
+        process.env.SITE_MAIL_RECEIVER ||
+        process.env.SITE_MAIL_RECIEVER ||
+        "roger@wgpartners.com",
       subject: `WG Partners inquiry — ${fields.name}${fields.company ? ` (${fields.company})` : ""}`,
       text: formatContactMessage(fields),
     });
