@@ -6,10 +6,10 @@ const stats = [
 
 export default function ResultBand() {
   return (
-    <div className="bg-ink">
+    <section aria-label="Results" className="bg-ink">
       <div className="mx-auto grid max-w-5xl grid-cols-1 divide-y divide-white/10 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
         {stats.map((s) => (
-          <div key={s.figure} className="px-6 py-8 text-center">
+          <div key={s.label} className="px-6 py-8 text-center">
             <div className="font-serif text-4xl font-extrabold text-gold">
               {s.figure}
             </div>
@@ -17,6 +17,6 @@ export default function ResultBand() {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
