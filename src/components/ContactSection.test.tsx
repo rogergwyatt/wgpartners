@@ -51,4 +51,27 @@ describe("ContactSection", () => {
     await waitFor(() => expect(toast.error).toHaveBeenCalled());
     expect((screen.getByLabelText(/^name$/i) as HTMLInputElement).value).toBe("Jane");
   });
+
+  it("renders a honeypot field that is hidden from real users", () => {
+    render(<ContactSection />);
+    const honeypot = screen.getByLabelText(/leave this field blank/i);
+    // Not reachable by keyboard, and hidden from assistive tech.
+    expect(honeypot).toHaveAttribute("tabindex", "-1");
+    expect(honeypot.closest("[aria-hidden='true']")).not.toBeNull();
+  });
+
+  it("passes the honeypot value to the server action so bots can be dropped", async () => {
+    submitMock.mockResolvedValue({ ok: true });
+    render(<ContactSection />);
+    fillValidForm();
+    fireEvent.change(screen.getByLabelText(/leave this field blank/i), {
+      target: { value: "http://spam.example" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: /send message/i }));
+    await waitFor(() => expect(submitMock).toHaveBeenCalledOnce());
+    expect(submitMock).toHaveBeenCalledWith(
+      expect.objectContaining({ name: "Jane" }),
+      "http://spam.example"
+    );
+  });
 });

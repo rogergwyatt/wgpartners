@@ -15,6 +15,8 @@ export default function ContactSection() {
   const [fields, setFields] = useState<ContactFields>(empty);
   const [errors, setErrors] = useState<ContactErrors>({});
   const [submitting, setSubmitting] = useState(false);
+  // Honeypot: hidden from humans, irresistible to naive bots.
+  const [honeypot, setHoneypot] = useState("");
 
   const update =
     (key: keyof ContactFields) =>
@@ -29,10 +31,11 @@ export default function ContactSection() {
 
     setSubmitting(true);
     try {
-      const result = await submitContactForm(fields);
+      const result = await submitContactForm(fields, honeypot);
       if (result.ok) {
         toast.success("Thanks — we'll be in touch shortly.");
         setFields(empty);
+        setHoneypot("");
       } else {
         toast.error("Couldn't send. Please call us at 910-297-0929.");
       }
@@ -64,6 +67,20 @@ export default function ContactSection() {
       </p>
 
       <form onSubmit={handleSubmit} noValidate className="mt-8 max-w-2xl space-y-4">
+        {/* Honeypot: off-screen, not focusable, ignored by autofill. Real
+            users never see or fill it; bots that do are silently dropped. */}
+        <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
+          <label htmlFor="contact-website">Leave this field blank</label>
+          <input
+            id="contact-website"
+            name="website"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            value={honeypot}
+            onChange={(e) => setHoneypot(e.target.value)}
+          />
+        </div>
         <div>
           <label htmlFor="name" className="mb-1 block text-sm font-medium text-ink">Name</label>
           <input id="name" className={fieldClass} value={fields.name} onChange={update("name")} />
