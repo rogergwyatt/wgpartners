@@ -1,6 +1,16 @@
+import Image from "next/image";
 import Section from "./Section";
 
-const partners = [
+type Partner = {
+  name: string;
+  title: string;
+  creds: string[];
+  // To add a real headshot: drop the file in public/images/team/ and set
+  // image: "/images/team/roger.jpg" (square images look best).
+  image?: string;
+};
+
+const partners: Partner[] = [
   {
     name: "Roger Wyatt",
     title: "Managing Partner & CTO · 40+ years",
@@ -25,6 +35,14 @@ const verticals = [
   "Government / Public Sector",
 ];
 
+function initials(name: string): string {
+  return name
+    .split(" ")
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join("");
+}
+
 export default function WhoWeAre() {
   return (
     <Section id="who-we-are" className="bg-mist">
@@ -46,8 +64,30 @@ export default function WhoWeAre() {
             key={p.name}
             className="rounded-xl border border-slate-200 bg-white p-7 shadow-sm"
           >
-            <h3 className="font-serif text-2xl font-bold text-navy">{p.name}</h3>
-            <p className="mt-1 text-sm font-medium text-royal">{p.title}</p>
+            <div className="flex items-center gap-4">
+              {p.image ? (
+                <Image
+                  src={p.image}
+                  alt={`${p.name} headshot`}
+                  width={80}
+                  height={80}
+                  className="h-20 w-20 shrink-0 rounded-full object-cover"
+                />
+              ) : (
+                <div
+                  aria-label={`${p.name} headshot placeholder`}
+                  className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full border-2 border-dashed border-slate-300 bg-navy/5 font-serif text-xl font-bold text-navy/40"
+                >
+                  {initials(p.name)}
+                </div>
+              )}
+              <div>
+                <h3 className="font-serif text-2xl font-bold text-navy">
+                  {p.name}
+                </h3>
+                <p className="mt-1 text-sm font-medium text-royal">{p.title}</p>
+              </div>
+            </div>
             <ul className="mt-4 space-y-2 text-sm text-slate-600">
               {p.creds.map((c) => (
                 <li key={c}>— {c}</li>
