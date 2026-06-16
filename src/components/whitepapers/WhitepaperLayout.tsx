@@ -8,7 +8,7 @@ export default function WhitepaperLayout({ article }: { article: Whitepaper }) {
     <main className="bg-mist">
       <div className="bg-navy px-6 py-16">
         <div className="mx-auto max-w-3xl">
-          <Link href="/#whitepapers" className="text-sm text-slate-300 hover:text-mist">
+          <Link href="/whitepapers" className="text-sm text-slate-300 hover:text-mist focus-visible:outline-none focus-visible:text-mist focus-visible:underline">
             &larr; All whitepapers
           </Link>
           <h1 className="mt-4 font-serif text-3xl font-bold text-mist lg:text-4xl">

@@ -80,7 +80,7 @@ export default function ContactSection() {
         </div>
         <div>
           <label htmlFor="phone" className="mb-1 block text-sm font-medium text-ink">Phone</label>
-          <input id="phone" className={fieldClass} value={fields.phone} onChange={update("phone")} />
+          <input id="phone" type="tel" className={fieldClass} value={fields.phone} onChange={update("phone")} />
           {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone}</p>}
         </div>
         <div>
@@ -98,7 +98,7 @@ export default function ContactSection() {
         <button
           type="submit"
           disabled={submitting}
-          className="inline-flex items-center justify-center rounded-md bg-navy px-6 py-3 text-sm font-semibold text-mist hover:bg-navy-700 disabled:opacity-60"
+          className="inline-flex items-center justify-center rounded-md bg-navy px-6 py-3 text-sm font-semibold text-mist hover:bg-navy-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2 disabled:opacity-60"
         >
           {submitting ? "Sending…" : "Send message"}
         </button>

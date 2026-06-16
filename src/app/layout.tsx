@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "WG Partners | Own Your Software. Forever.",
     description: SITE_DESCRIPTION,
   },

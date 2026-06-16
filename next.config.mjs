@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     distDir : 'build',
-    reactStrictMode: false,
+    reactStrictMode: true,
     images: {
         remotePatterns: [
             { protocol: 'https', hostname: '*.public.blob.vercel-storage.com' },

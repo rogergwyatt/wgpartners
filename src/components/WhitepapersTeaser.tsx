@@ -15,7 +15,7 @@ export default function WhitepapersTeaser() {
             The thinking behind the thesis.
           </h2>
         </div>
-        <Link href="/whitepapers" className="hidden text-sm font-semibold text-royal hover:underline sm:block">
+        <Link href="/whitepapers" className="text-sm font-semibold text-royal hover:underline">
           View all &rarr;
         </Link>
       </div>
