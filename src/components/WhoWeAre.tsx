@@ -50,12 +50,14 @@ export default function WhoWeAre() {
         Who We Are
       </p>
       <h2 className="mt-3 max-w-3xl font-serif text-3xl font-bold text-navy lg:text-4xl">
-        Senior technologists only. The partners who pitch you are the partners
-        who build your system.
+        The partners who pitch you are accountable for what we ship.
       </h2>
       <p className="mt-4 max-w-2xl text-slate-600">
-        WG AI Partners is a boutique AI-modernization firm — no associate layer, no
-        offshore handoff.
+        WG AI Partners is a boutique AI-modernization firm. The founding partners
+        lead every engagement and are personally accountable for the
+        outcome — and often do the building themselves. When a project calls for
+        more horsepower, we bring in vetted senior specialists. What you&rsquo;ll
+        never get is a junior associate layer or an offshore handoff.
       </p>
 
       <div className="mt-12 grid gap-6 md:grid-cols-2">
