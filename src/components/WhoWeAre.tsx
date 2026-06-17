@@ -14,6 +14,7 @@ const partners: Partner[] = [
   {
     name: "Roger Wyatt",
     title: "Managing Partner & CTO · 40+ years",
+    image: "/images/rogerheadshot.jpg",
     creds: [
       "146× performance improvement at Duck Creek",
       "$30MM savings at Capital One",
