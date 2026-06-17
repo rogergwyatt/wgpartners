@@ -24,7 +24,7 @@ const partners: Partner[] = [
   },
   {
     name: "Michael Grundvig",
-    title: "Principal Engineer",
+    title: "Partner & Head Engineer",
     creds: ["Enterprise platform experience at UKG and Duck Creek."],
   },
 ];
