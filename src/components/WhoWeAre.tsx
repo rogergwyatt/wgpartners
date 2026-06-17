@@ -30,6 +30,7 @@ const partners: Partner[] = [
 
 const verticals = [
   "Financial Services / Fintech",
+  "Insurance / Insurtech",
   "Manufacturing & Supply Chain",
   "Enterprise SaaS / Tech",
   "Government / Public Sector",
