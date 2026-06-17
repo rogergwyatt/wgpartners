@@ -72,7 +72,7 @@ export async function submitContactForm(
         process.env.SITE_MAIL_RECEIVER ||
         process.env.SITE_MAIL_RECIEVER ||
         "roger@wgaipartners.com",
-      subject: `WG Partners inquiry — ${fields.name}${fields.company ? ` (${fields.company})` : ""}`,
+      subject: `WG AI Partners inquiry — ${fields.name}${fields.company ? ` (${fields.company})` : ""}`,
       text: formatContactMessage(fields),
     });
     return { ok: true };

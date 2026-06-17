@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="bg-ink px-6 py-12 text-slate-400">
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-3 text-center text-sm">
         <span className="font-serif text-base tracking-[0.2em] text-mist">
-          WG&nbsp;PARTNERS
+          WG&nbsp;AI&nbsp;PARTNERS
         </span>
         <span>AI Modernization &amp; Legacy Systems Consulting</span>
         <span>

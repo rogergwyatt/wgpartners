@@ -25,7 +25,7 @@ export default function TopNav() {
           href="/"
           className="font-serif text-lg font-bold tracking-[0.2em] text-mist"
         >
-          WG&nbsp;PARTNERS
+          WG&nbsp;AI&nbsp;PARTNERS
         </Link>
 
         {/* Desktop links */}

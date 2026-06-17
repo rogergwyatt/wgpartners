@@ -11,9 +11,9 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const article = getWhitepaper(params.slug);
-  if (!article) return { title: "Whitepaper | WG Partners" };
+  if (!article) return { title: "Whitepaper | WG AI Partners" };
   return {
-    title: `${article.title} | WG Partners`,
+    title: `${article.title} | WG AI Partners`,
     description: article.dek,
     alternates: { canonical: `/whitepapers/${article.slug}` },
   };
@@ -30,7 +30,7 @@ export default function WhitepaperPage({ params }: { params: { slug: string } })
     description: article.dek,
     url: `https://www.wgaipartners.com/whitepapers/${article.slug}`,
     author: { "@type": "Organization", name: "Wyatt & Grundvig Partners" },
-    publisher: { "@type": "Organization", name: "WG Partners" },
+    publisher: { "@type": "Organization", name: "WG AI Partners" },
   };
 
   return (

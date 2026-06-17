@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import { getAllWhitepapers } from "@/lib/whitepapers";
 
 export const metadata: Metadata = {
-  title: "Whitepapers | WG Partners",
+  title: "Whitepapers | WG AI Partners",
   description: "The thinking behind the thesis — essays on SaaS lock-in, spec-driven engineering, and AI modernization.",
   alternates: { canonical: "/whitepapers" },
 };

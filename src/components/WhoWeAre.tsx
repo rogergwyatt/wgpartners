@@ -54,7 +54,7 @@ export default function WhoWeAre() {
         who build your system.
       </h2>
       <p className="mt-4 max-w-2xl text-slate-600">
-        WG Partners is a boutique AI-modernization firm — no associate layer, no
+        WG AI Partners is a boutique AI-modernization firm — no associate layer, no
         offshore handoff.
       </p>
 
