@@ -103,11 +103,11 @@ export default function WhoWeAre() {
       <h3 className="mt-14 text-lg font-semibold text-navy">
         Verticals we know
       </h3>
-      <div className="mt-4 flex flex-wrap gap-3">
+      <div className="mt-4 flex flex-wrap gap-3 lg:flex-nowrap lg:justify-between">
         {verticals.map((v) => (
           <span
             key={v}
-            className="rounded-full bg-navy/5 px-4 py-2 text-sm text-navy"
+            className="whitespace-nowrap rounded-full bg-navy/5 px-3 py-2 text-sm text-navy"
           >
             {v}
           </span>
