@@ -7,6 +7,8 @@ import HowWeWork from "@/components/HowWeWork";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
+
+
 export default function Home() {
   return (
     <>
