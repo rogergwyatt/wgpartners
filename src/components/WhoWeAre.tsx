@@ -8,6 +8,9 @@ type Partner = {
   // To add a real headshot: drop the file in public/images/team/ and set
   // image: "/images/team/roger.jpg" (square images look best).
   image?: string;
+  // Flip to true to show this partner on the site. Set Michael to true once
+  // he signs the partnership agreement.
+  published: boolean;
 };
 
 const partners: Partner[] = [
@@ -21,13 +24,17 @@ const partners: Partner[] = [
       "$3BN+ revenue at CarMax",
       "$2BN legacy modernization at NASA",
     ],
+    published: true,
   },
   {
     name: "Michael Grundvig",
     title: "Partner & Head Engineer",
     creds: ["Enterprise platform experience at UKG and Duck Creek."],
+    published: false, // TODO: set true when Michael signs the agreement
   },
 ];
+
+const visiblePartners = partners.filter((p) => p.published);
 
 const verticals = [
   "Financial Services / Fintech",
@@ -62,8 +69,12 @@ export default function WhoWeAre() {
         never get is a junior associate layer or an offshore handoff.
       </p>
 
-      <div className="mt-12 grid gap-6 md:grid-cols-2">
-        {partners.map((p) => (
+      <div
+        className={`mt-12 grid gap-6 ${
+          visiblePartners.length > 1 ? "md:grid-cols-2" : "max-w-xl"
+        }`}
+      >
+        {visiblePartners.map((p) => (
           <div
             key={p.name}
             className="rounded-xl border border-slate-200 bg-white p-7 shadow-sm"
