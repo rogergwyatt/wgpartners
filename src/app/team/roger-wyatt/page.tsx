@@ -53,7 +53,7 @@ const experience: Role[] = [
     title: "Director of Software Engineering",
     period: "2018 – 2022",
     bullets: [
-      { label: "Revenue Growth", text: "Commanded a 50+ engineer organization delivering 20+ core software products that directly yielded $3BN+ in revenue growth." },
+      { label: "Revenue Growth", text: "Led a 50+ person team delivering 20+ core software products that directly yielded $3BN+ in revenue growth." },
       { label: "Technical Roadmapping", text: "Formulated the technical product strategy and architectural roadmaps for 10+ internal enterprise tools supporting a user base of 10,000+." },
       { label: "Architectural Innovation", text: "Engineered parameter-driven, runtime module-loading software architectures, resulting in an organization-wide 50%+ baseline performance lift and specific application gains exceeding 200%." },
       { label: "Cross-Functional Alignment", text: "Collaborated across 10+ cross-functional business units to identify, address, and capture over $100MN+ in previously unrealized opportunity costs." },
