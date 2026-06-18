@@ -50,10 +50,12 @@ export default function HowWeWork() {
 
       <div className="mt-12 rounded-xl bg-gold/10 p-8 ring-1 ring-gold/30">
         <h3 className="font-serif text-2xl font-bold text-gold">
-          The 30-day, $50,000 pilot
+          A 30–60 day test project
         </h3>
         <p className="mt-2 text-slate-200">
-          Isolate → Specify → Deliver. 30 days. Working code. You own it forever.
+          Isolate → Specify → Deliver. We prove the model on one of your real
+          systems in 30–60 days — working code you own — before any larger
+          commitment.
         </p>
       </div>
 
