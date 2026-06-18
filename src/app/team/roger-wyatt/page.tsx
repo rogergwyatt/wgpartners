@@ -173,6 +173,14 @@ export default function RogerWyattResume() {
               Managing Partner &amp; CTO · 40+ years
             </p>
             <p className="mt-3 text-sm text-slate-300">
+              <a href="mailto:roger@wgaipartners.com" className="hover:text-mist">
+                roger@wgaipartners.com
+              </a>{" "}
+              ·{" "}
+              <a href="tel:+19102970929" className="hover:text-mist">
+                910-297-0929
+              </a>{" "}
+              ·{" "}
               <a
                 href="https://www.linkedin.com/in/rogerwyatt"
                 target="_blank"
@@ -180,10 +188,6 @@ export default function RogerWyattResume() {
                 className="hover:text-mist"
               >
                 linkedin.com/in/rogerwyatt
-              </a>{" "}
-              ·{" "}
-              <a href="tel:+19102970929" className="hover:text-mist">
-                910-297-0929
               </a>
             </p>
           </div>
