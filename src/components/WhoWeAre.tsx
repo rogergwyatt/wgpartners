@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import Section from "./Section";
 
 type Partner = {
@@ -11,6 +12,8 @@ type Partner = {
   // Flip to true to show this partner on the site. Set Michael to true once
   // he signs the partnership agreement.
   published: boolean;
+  // Optional link to a full résumé / profile page.
+  profileHref?: string;
 };
 
 const partners: Partner[] = [
@@ -25,6 +28,7 @@ const partners: Partner[] = [
       "$2BN legacy modernization at NASA",
     ],
     published: true,
+    profileHref: "/team/roger-wyatt",
   },
   {
     name: "Michael Grundvig",
@@ -108,6 +112,14 @@ export default function WhoWeAre() {
                 <li key={c}>— {c}</li>
               ))}
             </ul>
+            {p.profileHref && (
+              <Link
+                href={p.profileHref}
+                className="mt-5 inline-block text-sm font-semibold text-royal hover:underline focus-visible:outline-none focus-visible:underline"
+              >
+                View full résumé &rarr;
+              </Link>
+            )}
           </div>
         ))}
       </div>
