@@ -8,10 +8,20 @@ import {
   type ContactFields,
 } from "@/lib/contact";
 
+// SMTP_SERVER_HOST must be a bare mail-server hostname (e.g. "mail.wgaipartners.com"),
+// NOT a website URL. Strip any accidental scheme/path/whitespace so a pasted value
+// like "https://wgaipartners.com/" still resolves.
+const SMTP_HOST = process.env.SMTP_SERVER_HOST?.trim()
+  .replace(/^https?:\/\//i, "")
+  .replace(/\/.*$/, "");
+
+// Port 465 = implicit TLS (secure). 587/25 = STARTTLS (secure:false, upgraded).
+const SMTP_PORT = Number(process.env.SMTP_SERVER_PORT) || 465;
+
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_SERVER_HOST,
-  port: 465,
-  secure: true,
+  host: SMTP_HOST,
+  port: SMTP_PORT,
+  secure: SMTP_PORT === 465,
   auth: {
     user: process.env.SMTP_SERVER_USERNAME,
     pass: process.env.SMTP_SERVER_PASSWORD,
