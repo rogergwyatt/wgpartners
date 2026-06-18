@@ -65,8 +65,8 @@ export default function WhoWeAre() {
         WG AI Partners is a boutique AI-modernization firm. The founding partners
         lead every engagement and are personally accountable for the
         outcome — and often do the building themselves. When a project calls for
-        more horsepower, we bring in vetted senior specialists. What you&rsquo;ll
-        never get is a junior associate layer or an offshore handoff.
+        more horsepower, we draw on a trusted bench of senior specialists. What
+        you&rsquo;ll never get is a junior associate layer or an offshore handoff.
       </p>
 
       <div
@@ -110,6 +110,19 @@ export default function WhoWeAre() {
             </ul>
           </div>
         ))}
+      </div>
+
+      <div className="mt-8 rounded-xl bg-navy p-8 text-mist">
+        <h3 className="font-serif text-xl font-bold text-gold">
+          A senior delivery bench
+        </h3>
+        <p className="mt-3 max-w-3xl text-slate-200">
+          Every engagement is led by Roger and staffed by a network of senior
+          engineers and architects he&rsquo;s worked alongside for years — many
+          of them veterans of Duck Creek Technologies and UKG. We assemble the
+          right specialists for each project. No junior associates, no offshore
+          handoffs — just proven people who ship.
+        </p>
       </div>
 
       <h3 className="mt-14 text-lg font-semibold text-navy">
