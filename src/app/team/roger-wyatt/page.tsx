@@ -53,7 +53,7 @@ const experience: Role[] = [
     title: "Director of Software Engineering",
     period: "2018 – 2022",
     bullets: [
-      { label: "Revenue Growth", text: "Commanded a 50+ engineer organization delivering 20+ core software products that directly yielded $3BN+ in revenue growth." },
+      { label: "Revenue Growth", text: "Led a 50+ person team delivering 20+ core software products that directly yielded $3BN+ in revenue growth." },
       { label: "Technical Roadmapping", text: "Formulated the technical product strategy and architectural roadmaps for 10+ internal enterprise tools supporting a user base of 10,000+." },
       { label: "Architectural Innovation", text: "Engineered parameter-driven, runtime module-loading software architectures, resulting in an organization-wide 50%+ baseline performance lift and specific application gains exceeding 200%." },
       { label: "Cross-Functional Alignment", text: "Collaborated across 10+ cross-functional business units to identify, address, and capture over $100MN+ in previously unrealized opportunity costs." },
@@ -77,7 +77,7 @@ const experience: Role[] = [
     title: "Senior Engineering Manager",
     period: "2015 – 2017",
     bullets: [
-      { label: "Executive Solutions", text: "Managed a 100+ person engineering group developing strategic, high-visibility software portfolios valued at $50MN for CEO Richard Fairbanks." },
+      { label: "Executive Solutions", text: "Led a 100+ person engineering group developing strategic, high-visibility software portfolios valued at $50MN for CEO Richard Fairbanks." },
       { label: "Cost Containment", text: "Architected high-performance systems that realized $30MN in immediate operational savings while driving a 12,000%+ increase in processing speed." },
       { label: "Robotic Process Automation (RPA)", text: "Directed a dedicated 30-engineer RPA task force to implement intelligent automation workflows, securing $15MM in recurring annual savings." },
       { label: "Talent Acquisition", text: "Recruited, interviewed, onboarded, and mentored 30+ cross-functional engineers and technical leaders." },
