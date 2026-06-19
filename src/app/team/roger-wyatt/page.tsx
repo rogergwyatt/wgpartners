@@ -77,7 +77,7 @@ const experience: Role[] = [
     title: "Senior Engineering Manager",
     period: "2015 – 2017",
     bullets: [
-      { label: "Executive Solutions", text: "Managed a 100+ person engineering group developing strategic, high-visibility software portfolios valued at $50MN for CEO Richard Fairbanks." },
+      { label: "Executive Solutions", text: "Led a 100+ person engineering group developing strategic, high-visibility software portfolios valued at $50MN for CEO Richard Fairbanks." },
       { label: "Cost Containment", text: "Architected high-performance systems that realized $30MN in immediate operational savings while driving a 12,000%+ increase in processing speed." },
       { label: "Robotic Process Automation (RPA)", text: "Directed a dedicated 30-engineer RPA task force to implement intelligent automation workflows, securing $15MM in recurring annual savings." },
       { label: "Talent Acquisition", text: "Recruited, interviewed, onboarded, and mentored 30+ cross-functional engineers and technical leaders." },
