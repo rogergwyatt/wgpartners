@@ -29,6 +29,7 @@ export default function WhitepaperPage({ params }: { params: { slug: string } })
     headline: article.title,
     description: article.dek,
     url: `https://www.wgaipartners.com/whitepapers/${article.slug}`,
+    datePublished: article.date,
     author: { "@type": "Organization", name: "Wyatt & Grundvig Partners" },
     publisher: { "@type": "Organization", name: "WG AI Partners" },
   };
