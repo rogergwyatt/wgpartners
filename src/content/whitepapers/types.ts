@@ -1,12 +1,7 @@
-export interface WhitepaperSection {
-  heading?: string;
-  paragraphs: string[];
-}
-
 export interface Whitepaper {
   slug: string;
   title: string;
   dek: string;
-  order: number;
-  sections: WhitepaperSection[];
+  date: string; // ISO yyyy-mm-dd, from frontmatter
+  contentHtml: string; // rendered from the markdown body
 }
