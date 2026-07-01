@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compile, Don't Rent — One Pager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800;900&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A1D23;
+    --paper:#FAFAF7;
+    --hair:#E2DFD8;
+    --slate:#5B6573;
+    --rent:#C2410C;       /* recurring cost / risk */
+    --rent-wash:#FBEAE1;
+    --own:#0F766E;        /* amortized / owned asset */
+    --own-wash:#DDEFEB;
+    --display:'Archivo',-apple-system,BlinkMacSystemFont,sans-serif;
+    --body:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:#EDECE6;
+    color:var(--ink);
+    font-family:var(--body);
+    line-height:1.5;
+    padding:28px 16px;
+    display:flex;
+    justify-content:center;
+  }
+  .sheet{
+    width:100%;
+    max-width:840px;
+    background:var(--paper);
+    border:1px solid var(--hair);
+    box-shadow:0 1px 0 rgba(0,0,0,.04),0 24px 60px -28px rgba(26,29,35,.35);
+    padding:46px 50px 40px;
+    position:relative;
+    overflow:hidden;
+  }
+  .sheet::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:5px;
+    background:linear-gradient(90deg,var(--own) 0%,var(--own) 38%,var(--rent) 38%,var(--rent) 100%);
+  }
+
+  /* ---- header ---- */
+  .top{display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap;margin-bottom:30px}
+  .wordmark{font-family:var(--display);font-weight:900;font-size:19px;letter-spacing:-.02em}
+  .wordmark span{color:var(--rent)}
+  .meta{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:var(--slate);text-transform:uppercase;text-align:right;line-height:1.6}
+
+  .eyebrow{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--rent);margin-bottom:14px}
+
+  h1{
+    font-family:var(--display);font-weight:800;
+    font-size:clamp(28px,4.6vw,42px);line-height:1.04;letter-spacing:-.025em;
+    margin-bottom:16px;max-width:18ch;
+  }
+  h1 em{font-style:normal;color:var(--own);}
+  .lede{font-size:15.5px;color:#33373F;max-width:60ch;}
+  .lede b{font-weight:600;color:var(--ink)}
+
+  /* ---- contrast cards ---- */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0 6px}
+  .card{border:1px solid var(--hair);border-radius:3px;padding:20px 20px 18px;background:#fff;position:relative}
+  .card.rent{border-top:3px solid var(--rent)}
+  .card.own{border-top:3px solid var(--own)}
+  .card h3{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.01em;margin-bottom:3px}
+  .card .kicker{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-bottom:14px}
+  .card ul{list-style:none}
+  .card li{font-size:13px;padding:6px 0 6px 18px;position:relative;color:#3A3E46;border-bottom:1px dotted #ECE9E1}
+  .card li:last-child{border-bottom:none}
+  .card li::before{content:"";position:absolute;left:0;top:11px;width:7px;height:7px;border-radius:50%}
+  .rent li::before{background:var(--rent)}
+  .own li::before{background:var(--own)}
+  .tag{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;padding:6px 10px;border-radius:2px}
+  .rent .tag{background:var(--rent-wash);color:var(--rent)}
+  .own .tag{background:var(--own-wash);color:var(--own)}
+
+  /* ---- signature chart ---- */
+  .chart-block{margin:30px 0 8px;border:1px solid var(--hair);border-radius:3px;background:#fff;padding:20px 22px 16px}
+  .chart-block .label{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-bottom:4px}
+  .chart-block .title{font-family:var(--display);font-weight:700;font-size:15px;margin-bottom:14px;letter-spacing:-.01em}
+  svg{display:block;width:100%;height:auto}
+  .draw{stroke-dasharray:900;stroke-dashoffset:900;animation:draw 1.6s ease-out .3s forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .fade{opacity:0;animation:fade .6s ease-out 1.5s forwards}
+  @keyframes fade{to{opacity:1}}
+
+  /* ---- boundary strip ---- */
+  .boundary{margin:30px 0 6px}
+  .boundary h2,.objections h2{font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:.02em;text-transform:uppercase;color:var(--ink);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .boundary h2::after,.objections h2::after{content:"";flex:1;height:1px;background:var(--hair)}
+  .bgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .b{padding-left:14px;border-left:2px solid var(--hair)}
+  .b .h{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+  .b.live .h{color:var(--rent)}
+  .b.core .h{color:var(--own)}
+  .b.saas .h{color:var(--slate)}
+  .b p{font-size:12.5px;color:#3A3E46;line-height:1.45}
+
+  /* ---- objections ---- */
+  .objections{margin:30px 0 6px}
+  .obj{display:grid;grid-template-columns:minmax(0,0.9fr) 1.4fr;gap:18px;padding:11px 0;border-top:1px solid var(--hair);align-items:start}
+  .obj:last-of-type{border-bottom:1px solid var(--hair)}
+  .obj .q{font-family:var(--display);font-weight:600;font-size:13.5px;color:var(--slate);font-style:italic}
+  .obj .a{font-size:13px;color:var(--ink)}
+  .obj .a b{color:var(--own);font-weight:600}
+
+  /* ---- CTA ---- */
+  .cta{margin-top:30px;background:var(--ink);color:#F3F2EE;border-radius:4px;padding:24px 26px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+  .cta .pitch{max-width:54ch}
+  .cta .pitch .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#E9A38C;margin-bottom:8px}
+  .cta .pitch p{font-size:14.5px;line-height:1.5}
+  .cta .pitch b{color:#fff;font-weight:600}
+  .cta .btn{flex-shrink:0;font-family:var(--mono);font-weight:600;font-size:13px;letter-spacing:.03em;background:var(--rent);color:#fff;padding:14px 22px;border-radius:3px;white-space:nowrap}
+
+  .foot{margin-top:18px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--slate);flex-wrap:wrap;gap:8px}
+
+  @media (max-width:680px){
+    .sheet{padding:34px 24px 30px}
+    .grid,.bgrid{grid-template-columns:1fr}
+    .obj{grid-template-columns:1fr;gap:4px}
+    .obj .q{font-size:13px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .draw{animation:none;stroke-dashoffset:0}
+    .fade{animation:none;opacity:1}
+  }
+  @media print{
+    body{background:#fff;padding:0}
+    .sheet{box-shadow:none;border:none;max-width:100%;padding:24px 28px}
+    .draw{animation:none;stroke-dashoffset:0}
+    .fade{animation:none;opacity:1}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="top">
+    <div class="wordmark">[ YOUR&nbsp;PRACTICE ]<span>.</span></div>
+    <div class="meta">Compile, don't rent<br>An engineering &amp; cost brief</div>
+  </div>
+
+  <div class="eyebrow">For teams betting everything on agents</div>
+  <h1>Your agent's best output isn't an answer. It's <em>code</em>.</h1>
+  <p class="lede">A good agent solves a workflow <b>once</b> — then it can hand you a deterministic function that runs ten million times for almost nothing. We're the discipline that makes that the plan instead of an accident. We don't compete with your agent strategy. We're what it looks like when it grows up.</p>
+
+  <div class="grid">
+    <div class="card rent">
+      <h3>Agent in the hot path</h3>
+      <div class="kicker">Inference at runtime</div>
+      <ul>
+        <li>Re-reasons on every single request</li>
+        <li>~Cents and ~1&ndash;2 seconds per call</li>
+        <li>Non-deterministic &mdash; hard to test, hard to audit</li>
+        <li>Cost scales with usage, with no ceiling</li>
+      </ul>
+      <span class="tag">PAY PER REQUEST &middot; FOREVER</span>
+    </div>
+    <div class="card own">
+      <h3>Compiled once, owned by you</h3>
+      <div class="kicker">Inference at build time</div>
+      <ul>
+        <li>The thinking is done once, then frozen</li>
+        <li>~Micro-cents and ~microseconds per call</li>
+        <li>Deterministic &mdash; testable, reproducible, audit-grade</li>
+        <li>Cost amortizes toward zero at scale</li>
+      </ul>
+      <span class="tag">PAY ONCE &middot; OWN THE ASSET</span>
+    </div>
+  </div>
+
+  <div class="chart-block">
+    <div class="label">Cumulative cost &middot; same workflow</div>
+    <div class="title">Agents are cheaper to start. Then the meter never stops.</div>
+    <svg viewBox="0 0 600 250" role="img" aria-label="Cumulative cost over usage. The agent line rises steadily; the compiled line costs more upfront then stays flat, so the agent overtakes it at the break-even point.">
+      <!-- axes -->
+      <line x1="58" y1="20" x2="58" y2="210" stroke="#D8D5CC" stroke-width="1"/>
+      <line x1="58" y1="210" x2="580" y2="210" stroke="#D8D5CC" stroke-width="1"/>
+      <text x="50" y="30" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#9A968C">$</text>
+      <text x="58" y="228" font-family="IBM Plex Mono, monospace" font-size="10" fill="#9A968C">requests / time &rarr;</text>
+
+      <!-- overpay region (shaded after crossover) -->
+      <polygon class="fade" points="243,150 560,48 560,150" fill="#C2410C" fill-opacity="0.10"/>
+
+      <!-- compiled: upfront build cost, then flat -->
+      <path class="draw" d="M58,205 L100,150 L560,150" fill="none" stroke="#0F766E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- agent: steady linear climb -->
+      <path class="draw" d="M58,205 L560,48" fill="none" stroke="#C2410C" stroke-width="3" stroke-linecap="round"/>
+
+      <!-- crossover marker -->
+      <line class="fade" x1="243" y1="150" x2="243" y2="210" stroke="#1A1D23" stroke-width="1" stroke-dasharray="3 3"/>
+      <circle class="fade" cx="243" cy="150" r="4" fill="#1A1D23"/>
+      <text class="fade" x="243" y="200" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#1A1D23">break-even</text>
+
+      <!-- end labels -->
+      <text class="fade" x="556" y="42" text-anchor="end" font-family="Archivo, sans-serif" font-weight="700" font-size="13" fill="#C2410C">Agent runtime cost</text>
+      <text class="fade" x="556" y="143" text-anchor="end" font-family="Archivo, sans-serif" font-weight="700" font-size="13" fill="#0F766E">Compiled &amp; owned</text>
+    </svg>
+  </div>
+
+  <div class="boundary">
+    <h2>We build with edges. Here's where each one wins.</h2>
+    <div class="bgrid">
+      <div class="b live">
+        <div class="h">Keep agents live</div>
+        <p>Novel, ambiguous, low-volume long-tail work — where pre-writing every branch is impossible.</p>
+      </div>
+      <div class="b core">
+        <div class="h">Compile the core</div>
+        <p>High-volume, well-defined, latency- and audit-sensitive flows — the 80% that never changes between request one and request ten million.</p>
+      </div>
+      <div class="b saas">
+        <div class="h">Keep the SaaS</div>
+        <p>Deep ecosystems and commodity infrastructure you'd be reckless to rebuild. We don't claim everything.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="objections">
+    <h2>The three things you're about to say</h2>
+    <div class="obj">
+      <div class="q">"Inference keeps getting cheaper."</div>
+      <div class="a">So does compiling — with a cheaper model and <b>no runtime bill at all.</b> The gap doesn't close, it travels. And price never fixes latency or non-determinism.</div>
+    </div>
+    <div class="obj">
+      <div class="q">"We'll just build the agents ourselves."</div>
+      <div class="a">The cost lands at agent #200, not #1 — sprawl with no eval harness or governance. <b>The skill is knowing what to compile and what to leave live.</b></div>
+    </div>
+    <div class="obj">
+      <div class="q">"Why replace SaaS that works?"</div>
+      <div class="a">LLM generation collapsed the cost of <i>building</i> bespoke software. <b>The buy-vs-build math that justified per-seat SaaS just inverted</b> for the well-defined core.</div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <div class="pitch">
+      <div class="k">The offer</div>
+      <p>Pick one high-volume workflow. We'll put your annual agent-tax next to the compiled cost of owning it. <b>If the math doesn't move you, you've lost an hour.</b></p>
+    </div>
+    <div class="btn">Book the working session &rarr;</div>
+  </div>
+
+  <div class="foot">
+    <span>[ Your Practice ] &middot; name@practice.com</span>
+    <span>Runtime vs. build-time inference</span>
+  </div>
+
+</div>
+</body>
+</html>
