@@ -1,4 +1,5 @@
 import Section from "./Section";
+import CTAButton from "./CTAButton";
 
 const drains = [
   {
@@ -142,6 +143,14 @@ export default function SaaSKiller() {
           admin dashboard. What traditionally required six weeks of boilerplate
           engineering took under six hours of AI orchestration.
         </p>
+      </div>
+
+      <div className="mt-10 flex flex-col items-center gap-3 text-center">
+        <p className="text-slate-300">
+          Put a number on it — see what an agent running one workflow forever
+          actually costs versus software you own.
+        </p>
+        <CTAButton href="/calculator">Try the Agent Tax Calculator &rarr;</CTAButton>
       </div>
     </Section>
   );

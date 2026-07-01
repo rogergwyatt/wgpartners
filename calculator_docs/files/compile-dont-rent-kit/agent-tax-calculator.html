@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Tax Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800;900&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A1D23;
+    --paper:#FAFAF7;
+    --hair:#E2DFD8;
+    --slate:#5B6573;
+    --rent:#C2410C;
+    --rent-wash:#FBEAE1;
+    --own:#0F766E;
+    --own-wash:#DDEFEB;
+    --display:'Archivo',-apple-system,BlinkMacSystemFont,sans-serif;
+    --body:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#EDECE6;color:var(--ink);font-family:var(--body);line-height:1.5;padding:26px 14px;display:flex;justify-content:center}
+  .sheet{width:100%;max-width:880px;background:var(--paper);border:1px solid var(--hair);box-shadow:0 24px 60px -28px rgba(26,29,35,.35);position:relative;overflow:hidden}
+  .sheet::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--own) 0%,var(--own) 38%,var(--rent) 38%,var(--rent) 100%)}
+  .pad{padding:38px 44px 34px}
+
+  .top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:6px}
+  .wordmark{font-family:var(--display);font-weight:900;font-size:17px;letter-spacing:-.02em}
+  .wordmark span{color:var(--rent)}
+  .meta{font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--slate);text-transform:uppercase;text-align:right;line-height:1.6}
+  .eyebrow{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--rent);margin:22px 0 10px}
+  h1{font-family:var(--display);font-weight:800;font-size:clamp(24px,3.6vw,33px);line-height:1.06;letter-spacing:-.025em;max-width:20ch}
+  .sub{font-size:14.5px;color:#33373F;max-width:62ch;margin-top:10px}
+
+  .layout{display:grid;grid-template-columns:300px 1fr;gap:28px;margin-top:28px}
+
+  /* inputs */
+  .panel{border:1px solid var(--hair);background:#fff;border-radius:4px;padding:18px 18px 8px}
+  .panel .ph{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:14px}
+  .field{margin-bottom:16px}
+  .field label{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;font-weight:500;color:var(--ink);margin-bottom:6px}
+  .field label .hint{font-family:var(--mono);font-size:9.5px;color:var(--slate);font-weight:400;text-transform:uppercase;letter-spacing:.03em}
+  .inrow{display:flex;align-items:center;gap:8px}
+  .inrow .pre{font-family:var(--mono);font-size:13px;color:var(--slate)}
+  input[type=number]{width:100%;font-family:var(--mono);font-size:13px;font-weight:500;color:var(--ink);border:1px solid var(--hair);border-radius:3px;padding:8px 9px;background:#FCFCFA}
+  input[type=number]:focus{outline:2px solid var(--own);outline-offset:-1px;border-color:transparent}
+  input[type=range]{width:100%;margin-top:8px;accent-color:var(--rent);height:4px}
+  .seg{display:flex;border:1px solid var(--hair);border-radius:3px;overflow:hidden;margin-top:4px}
+  .seg button{flex:1;font-family:var(--mono);font-size:11px;font-weight:500;padding:7px 0;background:#FCFCFA;border:none;color:var(--slate);cursor:pointer;border-right:1px solid var(--hair)}
+  .seg button:last-child{border-right:none}
+  .seg button.on{background:var(--ink);color:#fff}
+
+  /* results */
+  .results{display:flex;flex-direction:column;gap:16px}
+  .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+  .stat{border:1px solid var(--hair);border-radius:4px;padding:15px 15px 13px;background:#fff;border-top-width:3px}
+  .stat.rent{border-top-color:var(--rent)}
+  .stat.own{border-top-color:var(--own)}
+  .stat.keep{border-top-color:var(--ink);background:var(--ink);color:#F3F2EE}
+  .stat .lab{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--slate);margin-bottom:7px;line-height:1.3}
+  .stat.keep .lab{color:#E9A38C}
+  .stat .num{font-family:var(--display);font-weight:800;font-size:25px;letter-spacing:-.02em;line-height:1}
+  .stat.rent .num{color:var(--rent)}
+  .stat.own .num{color:var(--own)}
+  .stat .note{font-size:10.5px;color:var(--slate);margin-top:6px}
+  .stat.keep .note{color:#B8BBC2}
+
+  /* meter */
+  .meter{border:1px solid var(--rent);background:var(--rent-wash);border-radius:4px;padding:15px 17px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+  .meter .l{flex:1;min-width:180px}
+  .meter .l .t{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--rent);font-weight:600;margin-bottom:4px}
+  .meter .l .d{font-size:11.5px;color:#7A3417}
+  .meter .v{font-family:var(--mono);font-weight:700;font-size:28px;color:var(--rent);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+
+  /* chart */
+  .chartwrap{border:1px solid var(--hair);background:#fff;border-radius:4px;padding:16px 18px 12px}
+  .chartwrap .ct{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;flex-wrap:wrap;gap:6px}
+  .chartwrap .ct .title{font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:-.01em}
+  .chartwrap .ct .be{font-family:var(--mono);font-size:11px;color:var(--ink);background:#F1EFE8;padding:4px 9px;border-radius:2px}
+  .chartwrap .ct .be b{color:var(--rent)}
+  svg{display:block;width:100%;height:auto}
+
+  .readout{font-size:13px;color:#33373F;background:#F4F2EC;border-left:3px solid var(--own);padding:12px 14px;border-radius:0 3px 3px 0}
+  .readout b{color:var(--ink);font-weight:600}
+  .readout .em{color:var(--own);font-weight:600}
+
+  .foot{margin-top:22px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--slate);flex-wrap:wrap;gap:8px}
+
+  /* token builder */
+  .builder{margin-top:10px;border:1px dashed #CFB6A3;border-radius:3px;background:#FDF8F4}
+  .builder summary{cursor:pointer;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--rent);padding:8px 10px;list-style:none;user-select:none}
+  .builder summary::-webkit-details-marker{display:none}
+  .builder summary::before{content:"▸  "}
+  .builder[open] summary::before{content:"▾  "}
+  .builder .bd{padding:2px 10px 11px}
+  .builder .row{display:flex;gap:8px;margin-bottom:8px}
+  .builder .row>div{flex:1;min-width:0}
+  .builder .mini{font-family:var(--mono);font-size:8.5px;text-transform:uppercase;letter-spacing:.03em;color:var(--slate);margin-bottom:3px;display:block}
+  .builder select,.builder input[type=number]{width:100%;font-family:var(--mono);font-size:12px;padding:6px 6px;border:1px solid var(--hair);border-radius:3px;background:#fff;color:var(--ink)}
+  .builder input[type=range]{margin-top:2px;accent-color:var(--rent)}
+  .builder .cacheval{color:var(--rent)}
+  .builder .result{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:9px;border-top:1px solid #E6D4C6}
+  .builder .result .v{font-family:var(--mono);font-weight:700;font-size:17px;color:var(--rent)}
+  .builder .apply{font-family:var(--mono);font-size:10px;font-weight:600;background:var(--own);color:#fff;border:none;border-radius:3px;padding:8px 11px;cursor:pointer;letter-spacing:.03em}
+  .builder .apply:active{transform:translateY(1px)}
+  .builder .bnote{font-size:10px;color:var(--slate);margin-top:7px;line-height:1.4}
+
+  /* compiled-cost platform picker (teal variant) */
+  .builder-own{border-color:#A9CFC8;background:#F2F8F6}
+  .builder-own summary{color:var(--own)}
+  .builder-own .result{border-top-color:#CFE6E0}
+  .pseg{display:flex;gap:6px;margin-bottom:8px}
+  .pseg button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:var(--mono);font-size:10px;font-weight:600;color:var(--slate);background:#fff;border:1px solid var(--hair);border-radius:3px;padding:8px 4px;cursor:pointer;line-height:1.2}
+  .pseg button span{font-size:9px;font-weight:400;color:var(--slate)}
+  .pseg button.on{background:var(--own);border-color:var(--own);color:#fff}
+  .pseg button.on span{color:#CFE6E0}
+  .psrc{font-family:var(--mono);font-size:9.5px;line-height:1.5;color:var(--own);background:#fff;border:1px solid #DCEBE7;border-radius:3px;padding:7px 9px}
+
+  @media (max-width:720px){
+    .pad{padding:28px 22px 26px}
+    .layout{grid-template-columns:1fr;gap:20px}
+    .stats{grid-template-columns:1fr}
+    .stat .num{font-size:27px}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+<div class="pad">
+
+  <div class="top">
+    <div class="wordmark">[ YOUR&nbsp;PRACTICE ]<span>.</span></div>
+    <div class="meta">Agent tax vs. compiled cost<br>Live working model</div>
+  </div>
+
+  <div class="eyebrow">Put a number on it</div>
+  <h1>What does one workflow cost if an agent runs it&nbsp;forever?</h1>
+  <p class="sub">Enter your real volume on the left. Everything is an assumption you can change — dial it to your numbers and watch the meter. The point isn't the default figures; it's where the two cost curves cross.</p>
+
+  <div class="layout">
+
+    <!-- INPUTS -->
+    <div class="panel">
+      <div class="ph">Your workflow</div>
+
+      <div class="field">
+        <label>Requests per day <span class="hint" id="rpdHint"></span></label>
+        <div class="inrow"><input type="number" id="rpd" min="1" step="1000" value="50000"></div>
+        <input type="range" id="rpdR" min="100" max="500000" step="100" value="50000">
+      </div>
+
+      <div class="field">
+        <label>Agent cost / request <span class="hint">inference, live</span></label>
+        <div class="inrow"><span class="pre">$</span><input type="number" id="agc" min="0" step="0.001" value="0.020"></div>
+        <input type="range" id="agcR" min="0" max="0.1" step="0.001" value="0.02">
+        <details class="builder">
+          <summary>Build this from tokens</summary>
+          <div class="bd">
+            <div class="row">
+              <div><span class="mini">Model (June 2026 rates)</span>
+                <select id="bModel">
+                  <option value="haiku">Haiku 4.5 &middot; $1 / $5</option>
+                  <option value="sonnet" selected>Sonnet 4.6 &middot; $3 / $15</option>
+                  <option value="opus">Opus 4.8 &middot; $5 / $25</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div><span class="mini">Input tok / call</span><input type="number" id="bIn" value="6000" step="500" min="0"></div>
+              <div><span class="mini">Output tok / call</span><input type="number" id="bOut" value="1000" step="100" min="0"></div>
+            </div>
+            <div class="row">
+              <div><span class="mini">Calls / task</span><input type="number" id="bCalls" value="1" step="1" min="1"></div>
+              <div><span class="mini">Input cached <span class="cacheval" id="bCacheV">0%</span></span><input type="range" id="bCache" min="0" max="90" step="5" value="0"></div>
+            </div>
+            <div class="result">
+              <div><span class="mini" style="margin:0 0 2px">Cost / request</span><span class="v" id="bResult">$0.000</span></div>
+              <button class="apply" id="bApply">Use this &rarr;</button>
+            </div>
+            <div class="bnote">A real agent is a loop — set <b>calls/task</b> to 3&ndash;6 for a tool-using workflow and watch it climb. Caching cuts input only; it never fixes latency or non-determinism.</div>
+          </div>
+        </details>
+      </div>
+
+      <div class="field">
+        <label>Agent latency / request <span class="hint">seconds</span></label>
+        <div class="inrow"><input type="number" id="lat" min="0" step="0.1" value="1.5"></div>
+      </div>
+
+      <div class="field">
+        <label>Compiled cost <span class="hint">$ / million reqs</span></label>
+        <div class="inrow"><span class="pre">$</span><input type="number" id="cmp" min="0" step="0.5" value="2"></div>
+        <details class="builder builder-own">
+          <summary>Back this with a platform</summary>
+          <div class="bd">
+            <div class="pseg" id="pseg">
+              <button type="button" data-v="0.5">Edge<span>~$0.50/M</span></button>
+              <button type="button" data-v="2" class="on">Serverless<span>~$2/M</span></button>
+              <button type="button" data-v="5.7">Full-stack<span>~$5.70/M</span></button>
+            </div>
+            <div class="psrc" id="psrc"></div>
+            <div class="bnote">Click through all three. The savings number barely moves &mdash; that&rsquo;s the point. Per-request runtime is rounding error against the agent; the real cost of this path is the build + maintenance below.</div>
+          </div>
+        </details>
+      </div>
+
+      <div class="field">
+        <label>One-time build <span class="hint">generate + test</span></label>
+        <div class="inrow"><span class="pre">$</span><input type="number" id="bld" min="0" step="1000" value="45000"></div>
+      </div>
+
+      <div class="field">
+        <label>Maintenance / year <span class="hint">own the asset</span></label>
+        <div class="inrow"><span class="pre">$</span><input type="number" id="mnt" min="0" step="500" value="9000"></div>
+      </div>
+
+      <div class="field">
+        <label>Horizon</label>
+        <div class="seg" id="horizon">
+          <button data-y="1">1 yr</button>
+          <button data-y="3" class="on">3 yr</button>
+          <button data-y="5">5 yr</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="results">
+
+      <div class="stats">
+        <div class="stat rent">
+          <div class="lab">Agent tax<br><span id="hLab1">3-yr</span></div>
+          <div class="num" id="agentTotal">—</div>
+          <div class="note">paid every request, forever</div>
+        </div>
+        <div class="stat own">
+          <div class="lab">Compiled<br><span id="hLab2">3-yr</span></div>
+          <div class="num" id="compTotal">—</div>
+          <div class="note">build + run + maintain</div>
+        </div>
+        <div class="stat keep">
+          <div class="lab">You keep<br><span id="hLab3">over 3 yr</span></div>
+          <div class="num" id="savings">—</div>
+          <div class="note" id="savingsNote">vs. running it live</div>
+        </div>
+      </div>
+
+      <div class="meter">
+        <div class="l">
+          <div class="t">Live agent meter</div>
+          <div class="d">Tax accruing at your volume since this page loaded — <span id="rps">0</span> req/sec</div>
+        </div>
+        <div class="v" id="ticker">$0.00</div>
+      </div>
+
+      <div class="chartwrap">
+        <div class="ct">
+          <div class="title">Cumulative cost</div>
+          <div class="be" id="beReadout">break-even: <b>—</b></div>
+        </div>
+        <svg id="chart" viewBox="0 0 560 230" role="img" aria-label="Cumulative cost over the chosen horizon for agent runtime versus compiled code."></svg>
+      </div>
+
+      <div class="readout" id="readout"></div>
+
+    </div>
+  </div>
+
+  <div class="foot">
+    <span>[ Your Practice ] &middot; name@practice.com</span>
+    <span>Assumptions are yours to change</span>
+  </div>
+
+</div>
+</div>
+
+<script>
+(function(){
+  var DPM = 30.4375; // avg days/month
+  var els = {
+    rpd:gid('rpd'), rpdR:gid('rpdR'), rpdHint:gid('rpdHint'),
+    agc:gid('agc'), agcR:gid('agcR'),
+    lat:gid('lat'), cmp:gid('cmp'), bld:gid('bld'), mnt:gid('mnt'),
+    agentTotal:gid('agentTotal'), compTotal:gid('compTotal'),
+    savings:gid('savings'), savingsNote:gid('savingsNote'),
+    ticker:gid('ticker'), rps:gid('rps'),
+    beReadout:gid('beReadout'), chart:gid('chart'), readout:gid('readout'),
+    hLab1:gid('hLab1'), hLab2:gid('hLab2'), hLab3:gid('hLab3')
+  };
+  var years = 3;
+  var t0 = Date.now();
+
+  function gid(id){return document.getElementById(id);}
+  function num(el){var v=parseFloat(el.value);return isNaN(v)?0:v;}
+  var fmt0 = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
+  var fmtN = new Intl.NumberFormat('en-US');
+  function money(v){ if(v>=1e6) return '$'+(v/1e6).toFixed(v>=1e7?1:2)+'M'; if(v>=1e4) return fmt0.format(v); return fmt0.format(v); }
+  function moneyExact(v){return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2,maximumFractionDigits:2}).format(v);}
+
+  // sync slider <-> number
+  els.rpdR.addEventListener('input',function(){els.rpd.value=els.rpdR.value;recompute();});
+  els.rpd.addEventListener('input',function(){var v=Math.min(num(els.rpd),parseFloat(els.rpdR.max));els.rpdR.value=v;recompute();});
+  els.agcR.addEventListener('input',function(){els.agc.value=parseFloat(els.agcR.value).toFixed(3);recompute();});
+  els.agc.addEventListener('input',function(){els.agcR.value=Math.min(num(els.agc),parseFloat(els.agcR.max));recompute();});
+  ['lat','cmp','bld','mnt'].forEach(function(k){els[k].addEventListener('input',recompute);});
+
+  // horizon segmented control
+  Array.prototype.forEach.call(document.querySelectorAll('#horizon button'),function(b){
+    b.addEventListener('click',function(){
+      Array.prototype.forEach.call(document.querySelectorAll('#horizon button'),function(x){x.classList.remove('on');});
+      b.classList.add('on'); years=parseInt(b.getAttribute('data-y'),10); recompute();
+    });
+  });
+
+  var state = {};
+  function recompute(){
+    var rpd = num(els.rpd);
+    var agc = num(els.agc);
+    var lat = num(els.lat);
+    var cmpPerM = num(els.cmp);
+    var bld = num(els.bld);
+    var mnt = num(els.mnt);
+
+    var cmpPer = cmpPerM/1e6;                 // compiled cost per request
+    var dailyAgent = rpd*agc;
+    var dailyCompRun = rpd*cmpPer;
+    var dailyMaint = mnt/365;
+
+    var months = years*12;
+    var monAgent = dailyAgent*DPM;
+    var monComp  = (dailyCompRun)*DPM + mnt/12;
+
+    var agentTotal = monAgent*months;
+    var compTotal  = bld + monComp*months;
+    var savings    = agentTotal - compTotal;
+
+    // break-even (days) where agentCum == compiledCum
+    var dailyDelta = dailyAgent - dailyCompRun - dailyMaint;
+    var beDays = dailyDelta>0 ? bld/dailyDelta : Infinity;
+
+    state = {rpd:rpd,agc:agc,dailyAgent:dailyAgent,monAgent:monAgent,monComp:monComp,bld:bld,
+             months:months,agentTotal:agentTotal,compTotal:compTotal,savings:savings,beDays:beDays,
+             lat:lat,cmpPer:cmpPer};
+
+    // labels
+    var yl = years+'-yr';
+    els.hLab1.textContent=yl; els.hLab2.textContent=yl; els.hLab3.textContent='over '+years+' yr';
+    els.rpdHint.textContent = fmtN.format(Math.round(rpd*365))+' / yr';
+
+    els.agentTotal.textContent = money(agentTotal);
+    els.compTotal.textContent  = money(compTotal);
+    els.savings.textContent    = savings>=0 ? money(savings) : '–'+money(Math.abs(savings));
+    els.savingsNote.textContent= savings>=0 ? 'vs. running it live' : 'agent is cheaper here';
+
+    els.rps.textContent = (rpd/86400).toFixed(rpd/86400<1?2:1);
+
+    // break-even readout
+    if(beDays===Infinity){
+      els.beReadout.innerHTML='break-even: <b>never at these inputs</b>';
+    }else if(beDays<=365){
+      els.beReadout.innerHTML='break-even: <b>'+Math.round(beDays)+' days</b>';
+    }else{
+      els.beReadout.innerHTML='break-even: <b>'+(beDays/365).toFixed(1)+' yrs</b>';
+    }
+
+    drawChart();
+    writeReadout();
+  }
+
+  function drawChart(){
+    var s=state, W=560,H=230, L=46,R=14,T=16,B=34;
+    var pw=W-L-R, ph=H-T-B;
+    var months=s.months;
+    function agentCum(m){return s.monAgent*m;}
+    function compCum(m){return s.bld + s.monComp*m;}
+    var ymax=Math.max(agentCum(months),compCum(months),1)*1.08;
+    function X(m){return L + (m/months)*pw;}
+    function Y(v){return T + ph - (v/ymax)*ph;}
+
+    var ag='',cp='';
+    for(var m=0;m<=months;m++){ag+=(m===0?'M':'L')+X(m).toFixed(1)+','+Y(agentCum(m)).toFixed(1)+' ';}
+    cp='M'+X(0).toFixed(1)+','+Y(compCum(0)).toFixed(1)+' L'+X(months).toFixed(1)+','+Y(compCum(months)).toFixed(1);
+
+    // crossover
+    var beMonth = s.beDays/DPM;
+    var crossSVG='';
+    if(s.beDays!==Infinity && beMonth<=months){
+      var cx=X(beMonth), cyA=Y(agentCum(beMonth));
+      // shaded overpay region: agent above compiled after crossover
+      var poly='M'+cx.toFixed(1)+','+cyA.toFixed(1);
+      for(var mm=Math.ceil(beMonth);mm<=months;mm++){poly+=' L'+X(mm).toFixed(1)+','+Y(agentCum(mm)).toFixed(1);}
+      poly+=' L'+X(months).toFixed(1)+','+Y(compCum(months)).toFixed(1);
+      poly+=' L'+cx.toFixed(1)+','+Y(compCum(beMonth)).toFixed(1)+' Z';
+      crossSVG='<path d="'+poly+'" fill="#C2410C" fill-opacity="0.10"/>'+
+        '<line x1="'+cx.toFixed(1)+'" y1="'+cyA.toFixed(1)+'" x2="'+cx.toFixed(1)+'" y2="'+(T+ph)+'" stroke="#1A1D23" stroke-width="1" stroke-dasharray="3 3"/>'+
+        '<circle cx="'+cx.toFixed(1)+'" cy="'+cyA.toFixed(1)+'" r="3.5" fill="#1A1D23"/>';
+    }
+
+    // axis ticks (start, mid, end in months/years)
+    function xlab(m){var yr=m/12; return yr%1===0?yr+'y':Math.round(m)+'m';}
+    var ticks='';
+    [0,months/2,months].forEach(function(m){
+      ticks+='<text x="'+X(m).toFixed(1)+'" y="'+(H-12)+'" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="9" fill="#9A968C">'+(m===0?'now':xlab(m))+'</text>';
+    });
+    var ytop='<text x="'+(L-6)+'" y="'+(T+8)+'" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="9" fill="#9A968C">'+money(ymax)+'</text>';
+
+    var svg=
+      '<line x1="'+L+'" y1="'+T+'" x2="'+L+'" y2="'+(T+ph)+'" stroke="#D8D5CC"/>'+
+      '<line x1="'+L+'" y1="'+(T+ph)+'" x2="'+(W-R)+'" y2="'+(T+ph)+'" stroke="#D8D5CC"/>'+
+      crossSVG+
+      '<path d="'+cp+'" fill="none" stroke="#0F766E" stroke-width="2.5" stroke-linejoin="round"/>'+
+      '<path d="'+ag+'" fill="none" stroke="#C2410C" stroke-width="2.5"/>'+
+      ytop+ticks+
+      '<text x="'+(W-R)+'" y="'+(Y(agentCum(months))-6).toFixed(1)+'" text-anchor="end" font-family="Archivo,sans-serif" font-weight="700" font-size="11" fill="#C2410C">Agent</text>'+
+      '<text x="'+(W-R)+'" y="'+(Y(compCum(months))-6).toFixed(1)+'" text-anchor="end" font-family="Archivo,sans-serif" font-weight="700" font-size="11" fill="#0F766E">Compiled</text>';
+    els.chart.innerHTML=svg;
+  }
+
+  function writeReadout(){
+    var s=state;
+    if(s.savings<0){
+      els.readout.innerHTML='At this volume the agent is still <b>'+money(Math.abs(s.savings))+' cheaper</b> over '+years+' years — so here you\u2019d <span class="em">keep it live</span>. That\u2019s the honest answer, and exactly the judgment call worth paying for. Push the volume up and watch where it flips.';
+      return;
+    }
+    var beTxt = s.beDays===Infinity ? 'never' : (s.beDays<=365 ? Math.round(s.beDays)+' days' : (s.beDays/365).toFixed(1)+' years');
+    els.readout.innerHTML='Compiling this workflow pays for itself in <span class="em">'+beTxt+'</span>, then keeps <b>'+money(s.savings)+'</b> over '+years+' years — money you\u2019re otherwise paying as inference tax on logic that never changes. '+timeLine();
+  }
+  function timeLine(){
+    var s=state;
+    var secs = s.rpd*365*s.lat; // cumulative wait per year
+    if(secs<=0) return '';
+    var days = secs/86400;
+    var human = days>=1 ? days.toFixed(days>=10?0:1)+' days' : (secs/3600).toFixed(1)+' hours';
+    return 'It also erases about <b>'+human+'</b> of cumulative wait time every year.';
+  }
+
+  // live ticker
+  function tick(){
+    var perSec = state.dailyAgent/86400;
+    var elapsed = (Date.now()-t0)/1000;
+    var accrued = perSec*elapsed;
+    els.ticker.textContent = accrued<100 ? moneyExact(accrued) : money(accrued);
+    requestAnimationFrame(tick);
+  }
+
+  // ---- token-based per-request builder ----
+  var RATES = {
+    haiku:  {in:1, out:5},
+    sonnet: {in:3, out:15},
+    opus:   {in:5, out:25}
+  };
+  var bModel=gid('bModel'), bIn=gid('bIn'), bOut=gid('bOut'), bCalls=gid('bCalls'),
+      bCache=gid('bCache'), bCacheV=gid('bCacheV'), bResult=gid('bResult'), bApply=gid('bApply');
+
+  function perReqCost(){
+    var r=RATES[bModel.value];
+    var inTok=num(bIn), outTok=num(bOut), calls=Math.max(1,num(bCalls)), cache=num(bCache)/100;
+    var effIn = r.in*(1-0.9*cache);              // cached input ≈ 10% of input rate
+    var perCall = (inTok*effIn + outTok*r.out)/1e6;
+    return perCall*calls;
+  }
+  function fmtReq(v){ return v<0.01 ? '$'+v.toFixed(4) : '$'+v.toFixed(3); }
+  function builderUpdate(){
+    bCacheV.textContent = num(bCache)+'%';
+    bResult.textContent = fmtReq(perReqCost());
+  }
+  [bModel,bIn,bOut,bCalls,bCache].forEach(function(el){
+    el.addEventListener('input',builderUpdate);
+    el.addEventListener('change',builderUpdate);
+  });
+  bApply.addEventListener('click',function(){
+    var v=perReqCost();
+    els.agc.value = v.toFixed(3);
+    els.agcR.value = Math.min(v, parseFloat(els.agcR.max));
+    recompute();
+  });
+  builderUpdate();
+
+  // ---- compiled-cost platform picker ----
+  var PLATFORM_SRC = {
+    '0.5':'Cloudflare Workers \u00b7 $5/mo incl. 10M requests, then $0.30/M + $0.02/M CPU-ms, zero egress fees (June 2026).',
+    '2':'AWS Lambda \u00b7 $0.20/M requests + ~$1.67/M compute at 512MB / 200ms, x86 (June 2026).',
+    '5.7':'Lambda + API Gateway + CloudWatch + NAT, all-in \u2248 $5.70/M per 2026 cost teardown of a 10M-request API.'
+  };
+  var psrc=gid('psrc');
+  function setPlatform(v){
+    Array.prototype.forEach.call(document.querySelectorAll('#pseg button'),function(b){
+      b.classList.toggle('on', b.getAttribute('data-v')===v);
+    });
+    psrc.textContent = PLATFORM_SRC[v] || '';
+    els.cmp.value = v;
+    recompute();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('#pseg button'),function(b){
+    b.addEventListener('click',function(){ setPlatform(b.getAttribute('data-v')); });
+  });
+  psrc.textContent = PLATFORM_SRC['2']; // default matches the $2 starting value
+
+  recompute();
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
