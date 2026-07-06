@@ -17,9 +17,15 @@ export default function Footer() {
             910-297-0929
           </a>
         </span>
-        <Link href="/whitepapers" className="hover:text-mist focus-visible:outline-none focus-visible:text-mist focus-visible:underline">
-          Whitepapers
-        </Link>
+        <span className="flex flex-wrap items-center justify-center gap-x-2">
+          <Link href="/proof-of-capability" className="hover:text-mist focus-visible:outline-none focus-visible:text-mist focus-visible:underline">
+            Proof of Capability
+          </Link>
+          <span aria-hidden="true">·</span>
+          <Link href="/whitepapers" className="hover:text-mist focus-visible:outline-none focus-visible:text-mist focus-visible:underline">
+            Whitepapers
+          </Link>
+        </span>
       </div>
     </footer>
   );

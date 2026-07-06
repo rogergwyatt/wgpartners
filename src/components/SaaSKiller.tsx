@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Section from "./Section";
 import CTAButton from "./CTAButton";
 
@@ -142,6 +143,14 @@ export default function SaaSKiller() {
           platform from scratch — payments, inventory, shipping APIs, and an
           admin dashboard. What traditionally required six weeks of boilerplate
           engineering took under six hours of AI orchestration.
+        </p>
+        <p className="mt-4">
+          <Link
+            href="/proof-of-capability"
+            className="text-sm font-semibold text-gold hover:underline"
+          >
+            See the full proof of capability &rarr;
+          </Link>
         </p>
       </div>
 
