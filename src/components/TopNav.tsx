@@ -7,6 +7,7 @@ import CTAButton from "./CTAButton";
 const links = [
   { href: "/#saas-killer", label: "SaaS Killer" },
   { href: "/calculator", label: "Calculator" },
+  { href: "/proof-of-capability", label: "Proof of Capability" },
   { href: "/#whitepapers", label: "Whitepapers" },
   { href: "/#who-we-are", label: "Who We Are" },
   { href: "/#how-we-work", label: "How We Work" },
